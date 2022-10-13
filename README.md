@@ -7,7 +7,7 @@
 <h3>作者：</h3>
   羽山秋人 (<a target="_blank" href="https://3wa.tw">https://3wa.tw</a>)<br>
 <h3>信箱：</h3>
-  <a target="_blank" href="mailto:uclarray30.3wa@gmail.com">uclarray30.3wa@gmail.com</a><br>
+  <a target="_blank" href="mailto:uclliu.3wa@gmail.com">uclliu.3wa@gmail.com</a><br>
 <br>
 <h3>最初開發日期：</h3>2022-10-13 23:30<br>
 <h3>最後更新日期：</h3>2022-10-13 23:30
