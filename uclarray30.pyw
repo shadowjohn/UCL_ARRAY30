@@ -1208,7 +1208,7 @@ def word_label_set_text():
   m = []
   try:  
     for k in ucl_find_data:
-      m.append("%d%s" % (step,k))
+      m.append("%d%s" % ((step+1),k))
       step=step+1
     tmp = my.implode(" ",m)
     if is_has_more_page == True:
@@ -2136,7 +2136,7 @@ def OnKeyboardEvent(event):
          
         if is_need_use_phone == False and len(ucl_find_data)>=1 and int(chr(event.Ascii)) < len(ucl_find_data):
           # send data        
-          data = ucl_find_data[int(chr(event.Ascii))]
+          data = ucl_find_data[int(chr(event.Ascii))-1]
           #debug_print(ucl_find_data)
           
           senddata(data)
@@ -2186,9 +2186,14 @@ def OnKeyboardEvent(event):
               debug_print("Debug100")
               return False
             else:  
-              return True 
+              if my.strlen(play_ucl_label.decode("UTF-8")) == 0:
+                debug_print("Debug101")
+                return True
+              else:
+                debug_print("Debug102")
+                return False
                
-      if is_need_use_phone == False and event.MessageName == "key down" and ( (event.Ascii>=65 and event.Ascii <=90) or (event.Ascii>=97 and event.Ascii <=122) or event.Ascii==44 or event.Ascii==46 or event.Ascii==39 or event.Ascii==91 or event.Ascii==93):
+      if is_need_use_phone == False and event.MessageName == "key down" and ( (event.Ascii>=65 and event.Ascii <=90) or (event.Ascii>=97 and event.Ascii <=122) or event.Ascii==44 or event.Ascii==46 or event.Ascii==39 or event.Ascii==91 or event.Ascii==93 or event.Ascii==191 or event.Ascii==186) or (my.strlen(play_ucl_label.decode("UTF-8"))>=1 and ((event.Ascii>=48 and event.Ascii<=57))):
         # 這裡應該是同時按著SHIFT的部分
         flag_is_play_otherkey=True
         if flag_is_shift_down==True:
@@ -2305,7 +2310,7 @@ def OnKeyboardEvent(event):
             return False
           else:
             return True
-      elif event.MessageName == "key down" and ( event.Ascii==58 or event.Ascii==59 or event.Ascii==123 or event.Ascii==125 or event.Ascii==40 or event.Ascii==41 or event.Ascii==43 or event.Ascii==126 or event.Ascii==33 or event.Ascii==64 or event.Ascii==35 or event.Ascii==36 or event.Ascii==37 or event.Ascii==94 or event.Ascii==38 or event.Ascii==42 or event.Ascii==95 or event.Ascii==60 or event.Ascii==62 or event.Ascii==63 or event.Ascii==34 or event.Ascii==124 or event.Ascii==47 or event.Ascii==45) : # : ;｛｝（）＋～！＠＃＄％＾＆＊＿＜＞？＂｜／－
+      elif event.MessageName == "key down" and ( event.Ascii==58 or event.Ascii==123 or event.Ascii==125 or event.Ascii==40 or event.Ascii==41 or event.Ascii==43 or event.Ascii==126 or event.Ascii==33 or event.Ascii==64 or event.Ascii==35 or event.Ascii==36 or event.Ascii==37 or event.Ascii==94 or event.Ascii==38 or event.Ascii==42 or event.Ascii==95 or event.Ascii==60 or event.Ascii==62 or event.Ascii==63 or event.Ascii==34 or event.Ascii==124 or event.Ascii==45) : # :｛｝（）＋～！＠＃＄％＾＆＊＿＜＞？＂｜－
         #debug_print("Debug for '; ")
         #debug_print("event.Ascii")
         #debug_print(event.Ascii)
@@ -2387,14 +2392,6 @@ def OnKeyboardEvent(event):
       #2021-03-22 修正 英/全 模式下，按 CTRL + 任意鍵，也是穿透的問題
       if is_hf(None)==False and event.MessageName == "key down" and flag_is_ctrl_down == True:
         return True        
-      #if event.MessageName == "key up" and len(event.Key) == 1 and is_hf(None)==False:
-      #  k = widen(event.Key)
-      #  debug_print("335 event.Key to Full:%s %s" % (event.Key,k))
-      #  senddata(k)
-      #  return False
-      #if len(event.Key) == 1 and is_hf(None)==False and event.KeyID !=0 and event.KeyID !=145 and event.KeyID !=162:
-      #  k = widen(event.Key)      
-      #  senddata(k) 
       debug_print("Debug3: %s" % (event.Transition))
       if event.KeyID==8 or event.KeyID==20 or event.KeyID==45 or event.KeyID==46 or event.KeyID==36 or event.KeyID==33 or event.KeyID==34 or event.KeyID==35 or event.KeyID==160 or event.KeyID==161 or event.KeyID==9 or event.KeyID == 37 or event.KeyID == 38 or event.KeyID == 39 or event.KeyID == 40 or event.KeyID == 231 or event.KeyID == 162 or event.KeyID == 163: #↑←→↓
         return True
