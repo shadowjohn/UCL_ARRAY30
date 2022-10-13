@@ -1,0 +1,1 @@
+c:\python27\python.exe uclarray30.pyw -d &

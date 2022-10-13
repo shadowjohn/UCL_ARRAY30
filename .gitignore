@@ -1,0 +1,16 @@
+﻿build
+*.pyc
+dist/old
+dist/*.zip
+dist/*.rar
+字根檔/*
+UCLarray30.ini
+dist/UCLarray30.ini
+/dist/UCLarray30.ini
+/UCLarray30.lock
+/dist/UCLarray30.lock
+/dist/test_ar30
+/UCLarray30.ini
+*.mp3
+/*.wav
+/.vs
