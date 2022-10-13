@@ -673,7 +673,6 @@ uclcode_r = {}
 uclcode_rr = {}
 #然後把 chardefs 的字碼，變成對照字根，可以加速 ,,,z、,,,x 反查的速度
 #only short key
-_vrsfw_arr = ['v','r','s','f','w','l','c','b','k','j','je','jr','js','jf','jw','jl','jc','jb','jk','rj','re','rr']
 for k in uclcode["chardefs"]:
    #2022-09-01 感謝 Benson9954029 提出修正
    for kk in range(0,len(uclcode["chardefs"][k])):
@@ -847,7 +846,7 @@ def show_sp_to_label(data,isForce=None):
   #顯示最簡字根到輸入結束框後
   global config
   global play_ucl_label
-  global _vrsfw_arr
+  
   if config['DEFAULT']['SP']=="0" and isForce is None:
     return
   # 2022-09-02 如果末字是數字，可調整為 VRSFW
@@ -855,14 +854,7 @@ def show_sp_to_label(data,isForce=None):
   #debug_print(data);
   
   _sp_data = my.strtoupper(word_to_sp(data))
-  
-  #debug_print("_sp_data[:-1]: "+_sp_data[:-1]);
-  #debug_print("_sp_data[-1]: "+_sp_data[-1]);
-  if len(_sp_data) > 0 and unicode(_sp_data[-1]).isnumeric() and int(_sp_data[-1])>=1 and int(_sp_data[-1])<=5:
-    # 如果預選字，如 「GQD 動 舅 娚」的 kk 在 1 或 2 (舅、娚)，就會變 GQD1 GQD2     
-    # 如為數字，加上 反 VRSFW 功能
-    _tmp_sp_data = _sp_data[:-1] + my.strtoupper(_vrsfw_arr[int(_sp_data[-1])-1]) 
-    _sp_data = _tmp_sp_data + " 或 " + _sp_data 
+    
   sp = "簡根：" + _sp_data 
   #word_label.set_label(sp)
   #word_label.modify_font(pango.FontDescription(GUI_FONT_18))
@@ -875,7 +867,7 @@ def thread___z(data):
 def find_ucl_in_uclcode(chinese_data):
   #用中文反找蝦碼(V1.10版寫法)
   global uclcode_r
-  global _vrsfw_arr
+  
   #debug_print(u"用中文反找蝦碼(V1.10版寫法)");  
   chinese_data = unicode(chinese_data);
   if chinese_data in uclcode_r:
@@ -1261,36 +1253,13 @@ def uclcode_to_chinese(code):
   #debug_print(u"use : uclcode_to_chinese ... 繼續走下面流程");
   global ucl_find_data
   #global debug_print
-  global _vrsfw_arr  
+  
   c = code
   c = my.trim(c)
   if c == "":
     return ""
-  # 如果最末碼是 1234567... 嘗試轉換 vrsfw...
-  #if len(c)>=2 and unicode(c[-1]).isnumeric() and int(c[-1])>=1 and int(c[-1]) < 10:
-  #  c = c[:-1] + _vrsfw_arr[int(c[-1])-1]
-  #debug_print(c)
-  if c not in uclcode["chardefs"] and c[-1]=='v' and c[:-1] in uclcode["chardefs"] and len(uclcode["chardefs"][c[:-1]])>=2 :
-    #debug_print("Debug V1")
-    ucl_find_data = uclcode["chardefs"][c[:-1]][1]       
-    return ucl_find_data
-  elif c not in uclcode["chardefs"] and c[-1]=='r' and c[:-1] in uclcode["chardefs"] and len(uclcode["chardefs"][c[:-1]])>=3 :
-    #debug_print("Debug V1")
-    ucl_find_data = uclcode["chardefs"][c[:-1]][2]       
-    return ucl_find_data
-  elif c not in uclcode["chardefs"] and c[-1]=='s' and c[:-1] in uclcode["chardefs"] and len(uclcode["chardefs"][c[:-1]])>=4 :
-    #debug_print("Debug V1")
-    ucl_find_data = uclcode["chardefs"][c[:-1]][3]       
-    return ucl_find_data
-  elif c not in uclcode["chardefs"] and c[-1]=='f' and c[:-1] in uclcode["chardefs"] and len(uclcode["chardefs"][c[:-1]])>=5 :
-    #debug_print("Debug V1")
-    ucl_find_data = uclcode["chardefs"][c[:-1]][4]       
-    return ucl_find_data
-  elif c not in uclcode["chardefs"] and c[-1]=='w' and c[:-1] in uclcode["chardefs"] and len(uclcode["chardefs"][c[:-1]])>=6 :
-    #debug_print("Debug V1")
-    ucl_find_data = uclcode["chardefs"][c[:-1]][5]       
-    return ucl_find_data
-  elif c in uclcode["chardefs"]:
+  
+  if c in uclcode["chardefs"]:
     #debug_print("Debug V2")
     ucl_find_data = uclcode["chardefs"][c][0]    
     return ucl_find_data
@@ -1338,27 +1307,7 @@ def show_search(kind):
   
   if c[0] == "'" and len(c)>1:
     c=c[1:]
-    is_need_use_pinyi=True       
-  if c not in WORDS_FROM and c[-1]=='v' and c[:-1] in WORDS_FROM and len(WORDS_FROM[c[:-1]])>=2 :
-    #debug_print("Debug V1")
-    ucl_find_data = WORDS_FROM[c[:-1]][1]   
-    word_label_set_text()
-    return True
-  elif c not in WORDS_FROM and c[-1]=='r' and c[:-1] in WORDS_FROM and len(WORDS_FROM[c[:-1]])>=3 :
-    #debug_print("Debug V1")
-    ucl_find_data = WORDS_FROM[c[:-1]][2]   
-    word_label_set_text()
-    return True
-  elif c not in WORDS_FROM and c[-1]=='s' and c[:-1] in WORDS_FROM and len(WORDS_FROM[c[:-1]])>=4 :
-    #debug_print("Debug V1")
-    ucl_find_data = WORDS_FROM[c[:-1]][3]   
-    word_label_set_text()
-    return True
-  elif c not in WORDS_FROM and c[-1]=='f' and c[:-1] in WORDS_FROM and len(WORDS_FROM[c[:-1]])>=5 :
-    #debug_print("Debug V1")
-    ucl_find_data = WORDS_FROM[c[:-1]][4]   
-    word_label_set_text()
-    return True
+    is_need_use_pinyi=True         
   elif c in WORDS_FROM:
     #debug_print("Debug V2")
     ucl_find_data = WORDS_FROM[c]
