@@ -2095,7 +2095,7 @@ def OnKeyboardEvent(event):
         return True
       #2018-05-05要考慮右邊數字鍵的 .
       #2021-08-31這裡是正常送字的部分
-      #debug_print("XXXXXXXXXXXXD")
+      
       #debug_print((phone_INDEX.index(chr(event.Ascii))>=0))
       #if event.MessageName == "key down" and pinyi_version == "0.01" and is_need_use_phone == False and event.Ascii==59 and c[0]=="'": # '; 的 ;
       if event.MessageName == "key up" and is_need_use_phone == False and pinyi_version == "0.01" and is_ucl() and my.strtolower(last_key[-2:])=="';":
@@ -2120,6 +2120,7 @@ def OnKeyboardEvent(event):
           return False
       # 2021-08-31 orin 0~9        
       # 是、非注音模式時   
+      
       if event.MessageName == "key down" and ( event.Ascii>=48 and event.Ascii <=57) or (event.Key=="Decimal" and event.Ascii==46) : #0~9 .
       
         LAST_CODE = "";
@@ -2192,8 +2193,9 @@ def OnKeyboardEvent(event):
               else:
                 debug_print("Debug102")
                 return False
-               
-      if is_need_use_phone == False and event.MessageName == "key down" and ( (event.Ascii>=65 and event.Ascii <=90) or (event.Ascii>=97 and event.Ascii <=122) or event.Ascii==44 or event.Ascii==46 or event.Ascii==39 or event.Ascii==91 or event.Ascii==93 or event.Ascii==191 or event.Ascii==186) or (my.strlen(play_ucl_label.decode("UTF-8"))>=1 and ((event.Ascii>=48 and event.Ascii<=57))):
+      # event.Ascii == 59 (;)
+      # Issue 6、; 字根問題修正
+      if is_need_use_phone == False and event.MessageName == "key down" and ( (event.Ascii>=65 and event.Ascii <=90) or (event.Ascii>=97 and event.Ascii <=122) or event.Ascii==44 or event.Ascii==46 or event.Ascii==39 or event.Ascii==91 or event.Ascii==93 or event.Ascii==191 or event.Ascii==186 or event.Ascii == 59) or (my.strlen(play_ucl_label.decode("UTF-8"))>=1 and ((event.Ascii>=48 and event.Ascii<=57))):  # fix array30 and uclliu
         # 這裡應該是同時按著SHIFT的部分
         flag_is_play_otherkey=True
         if flag_is_shift_down==True:
